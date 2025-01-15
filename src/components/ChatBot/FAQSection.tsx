@@ -5,12 +5,12 @@ interface FAQSectionProps {
 
 export default function FAQSection({ questions, onQuestionClick }: FAQSectionProps) {
   return (
-    <div className="p-4 bg-white">
-      <p className="text-sm font-medium text-gray-500 mb-3 sticky top-0 bg-white">
+    <div className="p-3 sm:p-4 bg-white">
+      <p className="text-xs sm:text-sm font-medium text-gray-500 mb-3 sticky top-0 bg-white">
         Frequently Asked Questions
       </p>
 
-      <div className="space-y-2 max-h-[180px] overflow-y-auto pr-2
+      <div className="space-y-2 max-h-[160px] sm:max-h-[180px] overflow-y-auto pr-2
                     scrollbar-thin scrollbar-track-transparent
                     scrollbar-thumb-gray-200 hover:scrollbar-thumb-green-200
                     [&::-webkit-scrollbar]:w-1.5
@@ -24,7 +24,7 @@ export default function FAQSection({ questions, onQuestionClick }: FAQSectionPro
           <button
             key={index}
             onClick={() => onQuestionClick(question)}
-            className="w-full text-left text-sm p-2.5 rounded-xl 
+            className="w-full text-left text-xs sm:text-sm p-2 sm:p-2.5 rounded-xl 
                      bg-gray-50 text-gray-600
                      hover:bg-green-50 hover:text-green-600
                      border border-gray-100
@@ -33,7 +33,7 @@ export default function FAQSection({ questions, onQuestionClick }: FAQSectionPro
           >
             <div className="flex items-center gap-2">
               <svg 
-                className="w-4 h-4 text-gray-400 group-hover:text-green-500" 
+                className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 group-hover:text-green-500" 
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"

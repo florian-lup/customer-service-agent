@@ -55,19 +55,19 @@ export default function HeroSection() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center container mx-auto px-4">
+      <div className="relative z-10 min-h-screen flex flex-col items-center container mx-auto px-4 sm:px-6">
         {/* Top label */}
-        <div className="w-full flex justify-end pt-8">
-          <div className="px-4 py-1.5 bg-blue-50 rounded-full">
-            <span className="text-blue-600 text-sm font-medium">AI-Powered Support</span>
+        <div className="w-full flex justify-end pt-4 sm:pt-6 md:pt-8">
+          <div className="px-3 sm:px-4 py-1.5 bg-blue-50 rounded-full">
+            <span className="text-blue-600 text-xs sm:text-sm font-medium">AI-Powered Support</span>
           </div>
         </div>
 
         {/* Content section */}
-        <div className="flex-1 flex flex-col items-center justify-center -mt-16">
+        <div className="flex-1 flex flex-col items-center justify-center w-full mt-12 sm:mt-0">
           {/* Description and button */}
-          <div className="text-center max-w-4xl mx-auto mb-24">
-            <p className="text-2xl text-gray-600 leading-relaxed mb-12">
+          <div className="text-center w-full max-w-4xl mx-auto mb-12 sm:mb-16 md:mb-24 px-2">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 leading-relaxed mb-8 sm:mb-12">
               Get <span className="font-semibold text-gray-800">instant</span> and <span className="font-semibold text-gray-800">accurate</span> answers 
               to any customer questions, <span className="font-medium text-green-600">available 24/7</span>.
             </p>
@@ -77,26 +77,26 @@ export default function HeroSection() {
           </div>
 
           {/* Features Grid */}
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 w-full max-w-6xl mx-auto px-2 sm:px-4 pb-8 sm:pb-12 relative">
             {/* Decorative line */}
             <div className="absolute -top-12 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
             
             {features.map((feature, index) => (
               <div 
                 key={index}
-                className="group bg-white p-8 rounded-2xl 
+                className="group bg-white p-5 sm:p-6 md:p-8 rounded-2xl 
                          shadow-sm hover:shadow-md
                          transition-all duration-300 
                          border border-gray-100
                          hover:border-green-100 hover:-translate-y-1"
               >
-                <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
-                  <div className="p-3 rounded-xl bg-gray-50 group-hover:bg-green-50 inline-block transition-colors duration-300">
+                <div className="mb-3 sm:mb-4 md:mb-6 transform group-hover:scale-110 transition-transform duration-300">
+                  <div className="p-2 sm:p-2.5 md:p-3 rounded-xl bg-gray-50 group-hover:bg-green-50 inline-block transition-colors duration-300">
                     {feature.icon}
                   </div>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-500">{feature.description}</p>
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1.5 sm:mb-2">{feature.title}</h3>
+                <p className="text-sm sm:text-base text-gray-500">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -104,7 +104,7 @@ export default function HeroSection() {
 
         {/* Chat Container */}
         {isChatOpen && (
-          <div className="fixed bottom-8 right-8 z-50">
+          <div className="fixed inset-0 sm:inset-auto sm:bottom-8 sm:right-8 z-50">
             <ChatBotContainer 
               isOpen={isChatOpen}
               onClose={() => setIsChatOpen(false)}

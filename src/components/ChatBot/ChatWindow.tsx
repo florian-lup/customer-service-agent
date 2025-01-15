@@ -51,12 +51,13 @@ export default function ChatWindow({
         initial="initial"
         animate="animate"
         exit="exit"
-        className="relative w-[400px] max-h-[600px] bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden"
+        className="relative w-full h-full sm:w-[400px] sm:h-[600px] sm:max-h-[90vh] 
+                 bg-white sm:rounded-2xl shadow-xl flex flex-col overflow-hidden"
       >
         <ChatHeader onClose={onClose} />
         
         <motion.div 
-          className="flex-1 p-4 overflow-y-auto scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200"
+          className="flex-1 p-3 sm:p-4 overflow-y-auto scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
@@ -68,7 +69,7 @@ export default function ChatWindow({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <p className="text-gray-600 text-sm">
+              <p className="text-sm sm:text-base text-gray-600">
                 Hello! How can I help you today?
               </p>
             </motion.div>
