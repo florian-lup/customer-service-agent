@@ -17,9 +17,11 @@ const energyWaves = Array.from({ length: 4 }).map((_, i) => ({
   direction: i % 2 === 0 ? 1 : -1,
 }));
 
-const radiationRings = Array.from({ length: 2 }).map((_, i) => ({
+const radiationRings = Array.from({ length: 4 }).map((_, i) => ({
   id: i,
-  delay: i * 2,
+  size: 400 + i * 200,
+  delay: i * 3,
+  clockwise: i % 2 === 0,
 }));
 
 export default function HeroSection() {
@@ -93,66 +95,23 @@ export default function HeroSection() {
         {radiationRings.map((ring) => (
           <motion.div
             key={ring.id}
-            className="absolute rounded-full"
+            className="absolute rounded-full border-2"
             style={{
-              background: 'linear-gradient(90deg, transparent, rgba(0, 255, 159, 0.03), transparent)',
+              width: ring.size,
+              height: ring.size,
+              borderColor: ring.clockwise ? 'rgba(0, 255, 159, 0.3)' : 'rgba(0, 102, 255, 0.3)',
+              [ring.clockwise ? 'borderRightColor' : 'borderLeftColor']: 'transparent',
+              filter: `drop-shadow(0 0 8px ${ring.clockwise ? 'rgba(0, 255, 159, 0.3)' : 'rgba(0, 102, 255, 0.3)'})`,
             }}
-            initial={{ width: 100, height: 100 }}
             animate={{
-              width: ['100px', '400px', '800px'],
-              height: ['100px', '400px', '800px'],
-              opacity: [0.4, 0.3, 0],
-              background: [
-                'linear-gradient(90deg, transparent, rgba(0, 255, 159, 0.15), transparent)',
-                'linear-gradient(90deg, transparent, rgba(0, 255, 159, 0.1), transparent)',
-                'linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.05), transparent)',
-              ],
-              border: [
-                '2px solid rgba(0, 255, 159, 0.4)',
-                '2px solid rgba(0, 255, 159, 0.2)',
-                '1px solid rgba(0, 102, 255, 0.05)',
-              ],
+              rotate: ring.clockwise ? 360 : -360,
             }}
             transition={{
-              duration: 6,
-              times: [0, 0.5, 1],
+              duration: 20 + ring.delay,
               repeat: Infinity,
-              delay: ring.delay,
-              ease: [0.4, 0, 0.2, 1],
-              repeatDelay: 0.1,
+              ease: "linear",
             }}
-          >
-            {/* Inner glow */}
-            <motion.div 
-              className="absolute inset-[-2px] rounded-full bg-gradient-to-r from-transparent via-[#00FF9F]/20 to-transparent"
-              animate={{
-                opacity: [0.2, 0.15, 0],
-              }}
-              transition={{
-                duration: 6,
-                times: [0, 0.5, 1],
-                repeat: Infinity,
-                delay: ring.delay,
-                ease: [0.4, 0, 0.2, 1],
-                repeatDelay: 0.1,
-              }}
-            />
-            {/* Outer glow */}
-            <motion.div 
-              className="absolute inset-[-2px] rounded-full bg-gradient-to-r from-transparent via-[#0066FF]/10 to-transparent blur-[2px]"
-              animate={{
-                opacity: [0.2, 0.15, 0],
-              }}
-              transition={{
-                duration: 6,
-                times: [0, 0.5, 1],
-                repeat: Infinity,
-                delay: ring.delay,
-                ease: [0.4, 0, 0.2, 1],
-                repeatDelay: 0.1,
-              }}
-            />
-          </motion.div>
+          />
         ))}
         
         {/* Center point */}

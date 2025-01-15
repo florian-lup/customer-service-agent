@@ -25,15 +25,13 @@ export default function ChatBotContainer() {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center">
-      <div className={`${isOpen ? 'w-full h-full p-4' : ''} flex items-center justify-center`}>
-        <AnimatePresence mode="wait">
-          {!isOpen ? (
-            <ChatButton 
-              key="button"
-              isOpen={isOpen}
-              onClick={() => setIsOpen(true)}
-            />
-          ) : (
+      <ChatButton 
+        onClick={() => setIsOpen(true)}
+      />
+
+      <AnimatePresence>
+        {isOpen && (
+          <div className="absolute inset-0 flex items-center justify-center p-4">
             <ChatWindow
               key="window"
               onClose={() => setIsOpen(false)}
@@ -43,9 +41,9 @@ export default function ChatBotContainer() {
               faqQuestions={FAQ_QUESTIONS}
               onFAQClick={handleFAQClick}
             />
-          )}
-        </AnimatePresence>
-      </div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 } 
