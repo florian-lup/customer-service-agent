@@ -1,5 +1,3 @@
-import { motion } from 'framer-motion';
-
 interface FAQSectionProps {
   questions: string[];
   onQuestionClick: (question: string) => void;
@@ -19,37 +17,38 @@ export default function FAQSection({ questions, onQuestionClick }: FAQSectionPro
 
       <div className="space-y-2">
         {questions.map((question, index) => (
-          <motion.button
+          <button
             key={index}
             onClick={() => onQuestionClick(question)}
-            className="w-full text-left text-sm p-2.5 rounded-lg bg-[#00FF9F]/5 hover:bg-[#00FF9F]/10 
-                     border border-[#00FF9F]/10 hover:border-[#00FF9F]/30 transition-all duration-300
-                     text-[#00FF9F]/90 backdrop-blur-sm relative group"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            style={{ willChange: 'transform, opacity' }}
+            className="w-full text-left text-sm p-2.5 rounded-lg bg-[#00FF9F]/5 border border-[#00FF9F]/10 text-[#00FF9F]/90 backdrop-blur-sm hover:bg-[#00FF9F]/10 hover:border-[#00FF9F]/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 ease-out relative group"
+            style={{
+              animation: `fadeIn 300ms ease-out forwards ${index * 100}ms`
+            }}
           >
             <div className="relative flex items-center space-x-2">
               <span className="text-[#00FF9F]/50 text-xs">{">"}</span>
               <span className="flex-1">{question}</span>
             </div>
 
-            <motion.div
-              className="absolute bottom-0 left-0 h-px bg-[#00FF9F]/30"
-              initial={{ scaleX: 0 }}
-              whileHover={{ scaleX: 1 }}
-              transition={{ duration: 0.3 }}
-              style={{ 
-                willChange: 'transform',
-                transformOrigin: 'left'
-              }}
-            />
-          </motion.button>
+            <div className="absolute bottom-0 left-0 h-px bg-[#00FF9F]/30 w-0 group-hover:w-full transition-all duration-300 ease-out" />
+          </button>
         ))}
       </div>
+
+      <style>
+        {`
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateX(-20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 } 

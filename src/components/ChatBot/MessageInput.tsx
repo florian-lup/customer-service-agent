@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
 interface MessageInputProps {
@@ -35,23 +34,17 @@ export default function MessageInput({ message, onChange, onSubmit }: MessageInp
         </div>
 
         {/* Send button */}
-        <motion.button
+        <button
           type="submit"
           className="px-4 py-2.5 bg-[#00FF9F]/10 border border-[#00FF9F]/30 rounded-lg
-                   hover:bg-[#00FF9F]/20 hover:border-[#00FF9F]/50 transition-colors relative"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          style={{ willChange: 'transform' }}
+                   hover:bg-[#00FF9F]/20 hover:border-[#00FF9F]/50 
+                   hover:scale-105 active:scale-95 group
+                   transition-all duration-200 ease-out"
         >
-          <motion.div
-            className="text-[#00FF9F]"
-            whileHover={{ rotate: 45 }}
-            transition={{ duration: 0.2 }}
-            style={{ willChange: 'transform' }}
-          >
+          <div className="text-[#00FF9F] group-hover:rotate-45 transition-transform duration-200">
             <PaperAirplaneIcon className="w-5 h-5" />
-          </motion.div>
-        </motion.button>
+          </div>
+        </button>
       </div>
     </form>
   );
