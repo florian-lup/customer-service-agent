@@ -15,43 +15,31 @@ export default function MessageInput({ message, onChange, onSubmit }: MessageInp
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-black/50">
-      <div className="flex gap-3">
+    <form onSubmit={handleSubmit} className="p-4 bg-white">
+      <div className="flex gap-2">
         {/* Input field */}
-        <div className="relative flex-1">
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Enter command..."
-            className="w-full p-2.5 bg-black/50 text-[#00FF9F] placeholder-[#00FF9F]/50 
-                     border border-[#00FF9F]/20 rounded-lg focus:outline-none focus:border-[#00FF9F]/50
-                     backdrop-blur-sm relative z-10 transition-colors duration-300"
-            style={{
-              textShadow: '0 0 10px rgba(0, 255, 159, 0.3)',
-            }}
-          />
-          
-          {/* Decorative corner accents */}
-          <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-[#00FF9F]/50" />
-          <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-[#00FF9F]/50" />
-          <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-[#00FF9F]/50" />
-          <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-[#00FF9F]/50" />
-        </div>
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="Type your message..."
+          className="flex-1 px-4 py-2 bg-gray-50 text-gray-900 placeholder-gray-400 
+                   rounded-xl border border-gray-200 
+                   focus:outline-none focus:border-green-300 focus:ring-1 focus:ring-green-300
+                   transition-colors duration-200"
+        />
 
         {/* Send button */}
         <button
           type="submit"
           disabled={!message.trim()}
-          className="px-4 py-2.5 bg-[#00FF9F]/10 border border-[#00FF9F]/30 rounded-lg
-                   hover:bg-[#00FF9F]/20 hover:border-[#00FF9F]/50 
-                   hover:scale-105 active:scale-95 group
-                   transition-all duration-200 ease-out
-                   disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-green-50 text-green-600 rounded-xl
+                   border border-green-100
+                   hover:bg-green-100
+                   transition-colors duration-200
+                   disabled:opacity-50 disabled:hover:bg-green-50 disabled:cursor-not-allowed"
         >
-          <div className="text-[#00FF9F] group-hover:rotate-45 transition-transform duration-200">
-            <PaperAirplaneIcon className="w-5 h-5" />
-          </div>
+          <PaperAirplaneIcon className="w-5 h-5" />
         </button>
       </div>
     </form>

@@ -1,89 +1,36 @@
-
 interface ChatButtonProps {
   onClick: () => void;
 }
 
 export default function ChatButton({ onClick }: ChatButtonProps) {
   return (
-    <div className="relative w-24 h-24 flex items-center justify-center">
-      {/* Outer rotating circles - Using CSS animations */}
-      <div
-        className="absolute w-[88px] h-[88px] rounded-full border-2 border-[#00FF9F]/30 animate-spin-slow"
-        style={{ 
-          borderRightColor: 'transparent',
-          filter: 'drop-shadow(0 0 8px rgba(0, 255, 159, 0.3))',
-          animationDuration: '8s',
-        }}
+    <button
+      onClick={onClick}
+      className="group flex items-center gap-2.5 px-6 py-3 rounded-xl
+                bg-green-50 text-green-600 overflow-hidden relative
+                border border-green-100
+                shadow-[0_1px_2px_rgba(0,0,0,0.05)]
+                hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]
+                transition-all duration-300"
+    >
+      {/* Background hover effect */}
+      <div className="absolute inset-0 bg-gradient-to-r from-green-100 to-green-50 
+                    translate-x-[-100%] group-hover:translate-x-0 
+                    transition-transform duration-300 ease-out" 
       />
-      <div
-        className="absolute w-[96px] h-[96px] rounded-full border-2 border-[#0066FF]/30 animate-spin-reverse"
-        style={{ 
-          borderLeftColor: 'transparent',
-          filter: 'drop-shadow(0 0 8px rgba(0, 102, 255, 0.3))',
-          animationDuration: '12s',
-        }}
-      />
-
-      {/* Main button */}
-      <button
-        onClick={onClick}
-        className="relative flex items-center justify-center w-16 h-16 rounded-full 
-                 bg-black border border-[#00FF9F]/30 backdrop-blur-sm text-[#00FF9F] 
-                 shadow-lg hover:shadow-xl transition-all duration-300
-                 hover:scale-105 active:scale-95 group"
-      >
-        {/* Rotating inner border - Using CSS animation */}
-        <div
-          className="absolute inset-0 rounded-full border-[3px] border-[#00FF9F] animate-spin-slow"
-          style={{ 
-            borderRightColor: 'transparent', 
-            borderBottomColor: 'transparent',
-            filter: 'drop-shadow(0 0 8px rgba(0, 255, 159, 0.5))',
-            animationDuration: '8s',
-          }}
-        />
-
-        {/* Icon container */}
-        <div
-          className="relative z-10 w-10 h-10 rounded-full bg-gradient-to-br 
-                   from-[#00FF9F]/10 to-[#0066FF]/10 group-hover:from-[#00FF9F]/20 
-                   group-hover:to-[#0066FF]/20 transition-all duration-300"
-        >
-          {/* Animated dots */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin-slow"
-               style={{ animationDuration: '8s' }}>
-            <div className="flex items-center justify-center">
-              {/* Central dot */}
-              <div
-                className="absolute w-2.5 h-2.5 rounded-full bg-[#00FF9F] animate-pulse"
-                style={{
-                  boxShadow: '0 0 10px rgba(0, 255, 159, 0.5)',
-                  animationDuration: '2s',
-                }}
-              />
-
-              {/* Orbiting dots */}
-              {[0, 120, 240].map((angle) => (
-                <div
-                  key={angle}
-                  className="absolute w-2 h-2 rounded-full bg-[#00FF9F]/80"
-                  style={{
-                    transform: `rotate(${angle}deg) translateX(12px)`,
-                  }}
-                >
-                  {/* Dot trail */}
-                  <div
-                    className="absolute inset-0 rounded-full bg-[#00FF9F]/30 blur-[2px]"
-                    style={{
-                      transform: 'scale(1.5)',
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </button>
-    </div>
+      
+      {/* Content */}
+      <div className="relative flex items-center gap-2.5">
+        {/* Icon */}
+        <svg className="w-5 h-5 text-green-500 transition-transform duration-300 group-hover:rotate-12" 
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
+                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+        </svg>
+        
+        {/* Text */}
+        <span className="font-medium">Try Now</span>
+      </div>
+    </button>
   );
 } 
