@@ -9,10 +9,16 @@ const FAQ_QUESTIONS = [
   "How can I track my order?"
 ];
 
-// Grid lines for background effect
-const gridLines = Array.from({ length: 20 }).map((_, i) => ({
+// Primary grid lines
+const primaryGridLines = Array.from({ length: 15 }).map((_, i) => ({
   id: i,
   delay: i * 0.1,
+}));
+
+// Secondary grid lines for layered effect
+const secondaryGridLines = Array.from({ length: 30 }).map((_, i) => ({
+  id: i,
+  delay: i * 0.05,
 }));
 
 export default function ChatBotContainer() {
@@ -46,71 +52,131 @@ export default function ChatBotContainer() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Background overlay with grid effect */}
+            {/* Background overlay with enhanced grid effect */}
             <motion.div 
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/90 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {/* Vertical grid lines */}
-              <div className="absolute inset-0 overflow-hidden">
-                {gridLines.map((line) => (
+              {/* Grid container with perspective effect */}
+              <div className="absolute inset-0 overflow-hidden perspective-1000">
+                {/* Primary vertical grid lines */}
+                {primaryGridLines.map((line) => (
                   <motion.div
                     key={line.id}
-                    className="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#00FF9F]/20 to-transparent"
-                    style={{ left: `${(line.id + 1) * 5}%` }}
+                    className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-[#00FF9F]/20 to-transparent"
+                    style={{ 
+                      left: `${(line.id + 1) * 6.66}%`,
+                      willChange: 'transform, opacity',
+                      transformStyle: 'preserve-3d',
+                    }}
                     initial={{ scaleY: 0, opacity: 0 }}
                     animate={{ 
                       scaleY: 1, 
-                      opacity: 0.5,
-                      transition: {
-                        delay: line.delay,
-                        duration: 0.5,
-                        ease: "easeOut"
-                      }
+                      opacity: 0.6,
                     }}
-                    exit={{ 
+                    exit={{
                       scaleY: 0,
                       opacity: 0,
-                      transition: {
-                        duration: 0.3,
-                        ease: "easeIn"
-                      }
+                      transition: { duration: 0.2, ease: "easeIn" }
+                    }}
+                    transition={{
+                      delay: line.delay,
+                      duration: 0.6,
+                      ease: "easeOut"
                     }}
                   />
                 ))}
-                {/* Horizontal grid lines */}
-                {gridLines.map((line) => (
+
+                {/* Secondary vertical grid lines - thinner and more subtle */}
+                {secondaryGridLines.map((line) => (
+                  <motion.div
+                    key={`secondary-${line.id}`}
+                    className="absolute top-0 bottom-0 w-[0.5px] bg-gradient-to-b from-transparent via-[#0066FF]/10 to-transparent"
+                    style={{ 
+                      left: `${(line.id + 1) * 3.33}%`,
+                      willChange: 'transform, opacity',
+                      transformStyle: 'preserve-3d',
+                    }}
+                    initial={{ scaleY: 0, opacity: 0 }}
+                    animate={{ 
+                      scaleY: 1, 
+                      opacity: 0.3,
+                    }}
+                    exit={{
+                      scaleY: 0,
+                      opacity: 0,
+                      transition: { duration: 0.2, ease: "easeIn" }
+                    }}
+                    transition={{
+                      delay: line.delay,
+                      duration: 0.5,
+                      ease: "easeOut"
+                    }}
+                  />
+                ))}
+
+                {/* Primary horizontal grid lines */}
+                {primaryGridLines.map((line) => (
                   <motion.div
                     key={`h-${line.id}`}
-                    className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0066FF]/20 to-transparent"
-                    style={{ top: `${(line.id + 1) * 5}%` }}
+                    className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#00FF9F]/20 to-transparent"
+                    style={{ 
+                      top: `${(line.id + 1) * 6.66}%`,
+                      willChange: 'transform, opacity',
+                      transformStyle: 'preserve-3d',
+                    }}
                     initial={{ scaleX: 0, opacity: 0 }}
                     animate={{ 
                       scaleX: 1, 
-                      opacity: 0.5,
-                      transition: {
-                        delay: line.delay + 0.2,
-                        duration: 0.5,
-                        ease: "easeOut"
-                      }
+                      opacity: 0.6,
                     }}
-                    exit={{ 
+                    exit={{
                       scaleX: 0,
                       opacity: 0,
-                      transition: {
-                        duration: 0.3,
-                        ease: "easeIn"
-                      }
+                      transition: { duration: 0.2, ease: "easeIn" }
+                    }}
+                    transition={{
+                      delay: line.delay + 0.1,
+                      duration: 0.6,
+                      ease: "easeOut"
                     }}
                   />
                 ))}
-              </div>
 
-              {/* Radial gradient overlay */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_70%)]" />
+                {/* Secondary horizontal grid lines - thinner and more subtle */}
+                {secondaryGridLines.map((line) => (
+                  <motion.div
+                    key={`h-secondary-${line.id}`}
+                    className="absolute left-0 right-0 h-[0.5px] bg-gradient-to-r from-transparent via-[#0066FF]/10 to-transparent"
+                    style={{ 
+                      top: `${(line.id + 1) * 3.33}%`,
+                      willChange: 'transform, opacity',
+                      transformStyle: 'preserve-3d',
+                    }}
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={{ 
+                      scaleX: 1, 
+                      opacity: 0.3,
+                    }}
+                    exit={{
+                      scaleX: 0,
+                      opacity: 0,
+                      transition: { duration: 0.2, ease: "easeIn" }
+                    }}
+                    transition={{
+                      delay: line.delay,
+                      duration: 0.5,
+                      ease: "easeOut"
+                    }}
+                  />
+                ))}
+
+                {/* Radial gradient overlay for depth */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_40%,rgba(0,0,0,0.6)_70%)]" />
+              </div>
             </motion.div>
 
             {/* Chat Window Container */}

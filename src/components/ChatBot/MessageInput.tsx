@@ -7,12 +7,18 @@ interface MessageInputProps {
 }
 
 export default function MessageInput({ message, onChange, onSubmit }: MessageInputProps) {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (message.trim()) {
+      onSubmit(e);
+    }
+  };
+
   return (
-    <form onSubmit={onSubmit} className="p-4 bg-black/50">
+    <form onSubmit={handleSubmit} className="p-4 bg-black/50">
       <div className="flex gap-3">
         {/* Input field */}
         <div className="relative flex-1">
-          <div className="absolute inset-0 rounded-lg border border-[#00FF9F]/20" />
           <input
             type="text"
             value={message}
@@ -36,10 +42,12 @@ export default function MessageInput({ message, onChange, onSubmit }: MessageInp
         {/* Send button */}
         <button
           type="submit"
+          disabled={!message.trim()}
           className="px-4 py-2.5 bg-[#00FF9F]/10 border border-[#00FF9F]/30 rounded-lg
                    hover:bg-[#00FF9F]/20 hover:border-[#00FF9F]/50 
                    hover:scale-105 active:scale-95 group
-                   transition-all duration-200 ease-out"
+                   transition-all duration-200 ease-out
+                   disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
         >
           <div className="text-[#00FF9F] group-hover:rotate-45 transition-transform duration-200">
             <PaperAirplaneIcon className="w-5 h-5" />
