@@ -62,13 +62,23 @@ export default function ChatWindow({
         >
           <div className="space-y-4">
             <motion.div 
-              className="bg-green-50 p-3 rounded-xl border border-green-100"
+              className="bg-green-50 p-4 rounded-xl border border-green-100"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <p className="text-sm sm:text-base text-gray-600">
-                Hello! How can I help you today?
+              <h3 className="font-medium text-gray-800 mb-2">Welcome to Customer Support! 👋</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                I&apos;m your virtual assistant, ready to help you with:
+              </p>
+              <ul className="text-sm text-gray-600 space-y-2 ml-4 list-disc">
+                <li>Product information and features</li>
+                <li>Technical support and troubleshooting</li>
+                <li>Account-related questions</li>
+                <li>Billing and payment inquiries</li>
+              </ul>
+              <p className="text-sm text-gray-600 mt-3">
+                Feel free to ask any questions or check out the frequently asked questions below!
               </p>
             </motion.div>
           </div>
