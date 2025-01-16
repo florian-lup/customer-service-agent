@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { FAQQuestion } from '@/components/ChatAgent/ai-components/FAQList';
+import { FAQQuestion } from '@/components/ChatAgent/components/FAQSection';
 import { createOpenAIFunctionsAgent, AgentExecutor } from 'langchain/agents';
 import { createSearchTool } from '@/components/ChatAgent/ai-components/SearchTool';
 import { createLLM, createPromptTemplate } from '@/components/ChatAgent/ai-components/LLMConfig';

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import ChatWindow from './ChatWindow';
 import ResponseWindow from './ResponseWindow';
-import { FAQ_QUESTIONS } from '../ai-components/FAQList';
 
 interface ChatContainerProps {
   isOpen: boolean;
@@ -65,7 +64,6 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
                   message={message}
                   onMessageChange={setMessage}
                   onMessageSubmit={handleSubmit}
-                  faqQuestions={[...FAQ_QUESTIONS]}
                   onFAQClick={handleFAQClick}
                 />
               </motion.div>

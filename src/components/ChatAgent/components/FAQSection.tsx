@@ -1,9 +1,20 @@
+export const FAQ_QUESTIONS = [
+  "What are Lugg's business hours for moving services?",
+  "How can I track my Lugg moving order?",
+  "What payment methods does Lugg accept?",
+  "How can I request a refund for my Lugg service?",
+  "How much notice do I need to book a move?",
+  "What items can Lugg help me move?",
+  "Does Lugg provide packing services?"
+] as const;
+
+export type FAQQuestion = typeof FAQ_QUESTIONS[number];
+
 interface FAQSectionProps {
-  questions: string[];
-  onQuestionClick: (question: string) => void;
+  onQuestionClick: (question: FAQQuestion) => void;
 }
 
-export default function FAQSection({ questions, onQuestionClick }: FAQSectionProps) {
+export default function FAQSection({ onQuestionClick }: FAQSectionProps) {
   return (
     <div className="p-3 sm:p-4 bg-white">
       <p className="text-xs sm:text-sm font-medium text-gray-500 mb-3 sticky top-0 bg-white">
@@ -20,7 +31,7 @@ export default function FAQSection({ questions, onQuestionClick }: FAQSectionPro
                     hover:[&::-webkit-scrollbar-thumb]:bg-green-200
                     [&::-webkit-scrollbar-thumb]:border
                     [&::-webkit-scrollbar-thumb]:border-white">
-        {questions.map((question, index) => (
+        {FAQ_QUESTIONS.map((question, index) => (
           <button
             key={index}
             onClick={() => onQuestionClick(question)}

@@ -8,7 +8,6 @@ interface ChatWindowProps {
   message: string;
   onMessageChange: (message: string) => void;
   onMessageSubmit: (e: React.FormEvent) => void;
-  faqQuestions: string[];
   onFAQClick: (question: string) => void;
 }
 
@@ -40,7 +39,6 @@ export default function ChatWindow({
   message,
   onMessageChange,
   onMessageSubmit,
-  faqQuestions,
   onFAQClick,
 }: ChatWindowProps) {
   return (
@@ -78,7 +76,6 @@ export default function ChatWindow({
 
         <div className="border-t border-gray-100">
           <FAQSection 
-            questions={faqQuestions}
             onQuestionClick={onFAQClick}
           />
         </div>
