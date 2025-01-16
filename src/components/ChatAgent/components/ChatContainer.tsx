@@ -1,21 +1,14 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import ChatWindow from './ChatWindow';
+import { FAQ_QUESTIONS } from '../ai-components/FAQList';
 
-const FAQ_QUESTIONS = [
-  "How do I reset my password?",
-  "What are your business hours?",
-  "How can I track my order?",
-  "What payment methods do you accept?",
-  "How can I request a refund?"
-];
-
-interface ChatBotContainerProps {
+interface ChatContainerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ChatBotContainer({ isOpen, onClose }: ChatBotContainerProps) {
+export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   const [message, setMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -50,7 +43,7 @@ export default function ChatBotContainer({ isOpen, onClose }: ChatBotContainerPr
                 message={message}
                 onMessageChange={setMessage}
                 onMessageSubmit={handleSubmit}
-                faqQuestions={FAQ_QUESTIONS}
+                faqQuestions={[...FAQ_QUESTIONS]} // Convert readonly array to mutable array
                 onFAQClick={handleFAQClick}
               />
             </div>

@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import ChatButton from './ChatBot/ChatButton';
+import ChatButton from './ChatAgent/components/ChatButton';
 
-const ChatBotContainer = dynamic(() => import('./ChatBot/ChatBotContainer'), { ssr: false });
+const ChatContainer = dynamic(() => import('./ChatAgent/components/ChatContainer'), { ssr: false });
 
 export default function HeroSection() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -105,7 +105,7 @@ export default function HeroSection() {
         {/* Chat Container */}
         {isChatOpen && (
           <div className="fixed inset-0 sm:inset-auto sm:bottom-8 sm:right-8 z-50">
-            <ChatBotContainer 
+            <ChatContainer 
               isOpen={isChatOpen}
               onClose={() => setIsChatOpen(false)}
             />
