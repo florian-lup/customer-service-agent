@@ -9,6 +9,7 @@ interface ChatWindowProps {
   onMessageChange: (message: string) => void;
   onMessageSubmit: (e: React.FormEvent) => void;
   onFAQClick: (question: string) => void;
+  isLoading: boolean;
 }
 
 const windowVariants = {
@@ -40,6 +41,7 @@ export default function ChatWindow({
   onMessageChange,
   onMessageSubmit,
   onFAQClick,
+  isLoading,
 }: ChatWindowProps) {
   return (
     <div className="fixed inset-0 flex items-center justify-center">
@@ -93,8 +95,9 @@ export default function ChatWindow({
         <div className="border-t border-gray-100">
           <MessageInput
             message={message}
-            onChange={onMessageChange}
+            onMessageChange={onMessageChange}
             onSubmit={onMessageSubmit}
+            isLoading={isLoading}
           />
         </div>
       </motion.div>

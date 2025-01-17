@@ -12,29 +12,48 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState('');
   const [showResponse, setShowResponse] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!message.trim()) return;
-
+  const sendToAPI = async (text: string) => {
+    setIsLoading(true);
     try {
       const res = await fetch('/api/serviceAgent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({ question: text })
       });
 
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'An error occurred while processing your request');
+      }
+
       const data = await res.json();
+      if (!data.response) {
+        throw new Error('Invalid response format from server');
+      }
+
       setResponse(data.response);
       setShowResponse(true);
       setMessage('');
     } catch (error) {
       console.error('Error:', error);
+      setResponse(error instanceof Error ? error.message : 'Sorry, there was an error processing your request. Please try again.');
+      setShowResponse(true);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+    await sendToAPI(message);
   };
 
   const handleFAQClick = (question: string) => {
     setMessage(question);
+    sendToAPI(question);
   };
 
   return (
@@ -48,45 +67,26 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              onClick={onClose}
+            />
+            
+            {/* Chat Interface */}
+            <ChatWindow
+              onClose={onClose}
+              message={message}
+              onMessageChange={setMessage}
+              onMessageSubmit={handleSubmit}
+              onFAQClick={handleFAQClick}
+              isLoading={isLoading}
             />
 
-            {/* Windows Container */}
-            <div className="relative z-50 flex items-center">
-              {/* Chat Window Container */}
-              <motion.div
-                initial={{ x: 0 }}
-                animate={{ x: showResponse ? "-50%" : 0 }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              >
-                <ChatWindow
-                  onClose={onClose}
-                  message={message}
-                  onMessageChange={setMessage}
-                  onMessageSubmit={handleSubmit}
-                  onFAQClick={handleFAQClick}
-                />
-              </motion.div>
-
-              {/* Response Window */}
-              <AnimatePresence>
-                {showResponse && (
-                  <motion.div
-                    initial={{ x: "100%", opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: "100%", opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="ml-4"
-                  >
-                    <ResponseWindow
-                      response={response}
-                      isOpen={showResponse}
-                      onClose={() => setShowResponse(false)}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            {/* Response Window */}
+            {showResponse && (
+              <ResponseWindow
+                response={response}
+                onClose={() => setShowResponse(false)}
+              />
+            )}
           </>
         )}
       </AnimatePresence>

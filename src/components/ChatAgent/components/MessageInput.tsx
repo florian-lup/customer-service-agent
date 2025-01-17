@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
 interface UseAIChatProps {
   onMessageSubmit?: (message: string) => void;
@@ -39,51 +38,49 @@ export function useAIChat({ onMessageSubmit }: UseAIChatProps = {}) {
 
 interface MessageInputProps {
   message: string;
-  onChange: (message: string) => void;
+  onMessageChange: (message: string) => void;
   onSubmit: (e: React.FormEvent) => void;
-  isLoading?: boolean;
+  isLoading: boolean;
 }
 
-export default function MessageInput({ 
-  message, 
-  onChange, 
+export default function MessageInput({
+  message,
+  onMessageChange,
   onSubmit,
-  isLoading = false 
+  isLoading
 }: MessageInputProps) {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (message.trim()) {
-      onSubmit(e);
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="p-3 sm:p-4 bg-white">
-      <div className="flex gap-2">
+    <form onSubmit={onSubmit} className="p-3 sm:p-4 border-t">
+      <div className="relative">
         <input
           type="text"
           value={message}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="Type your message..."
+          onChange={(e) => onMessageChange(e.target.value)}
+          placeholder="Type your question..."
+          className="w-full pr-12 pl-4 py-2 sm:py-2.5 rounded-xl border border-gray-200
+                   focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none
+                   text-sm placeholder:text-gray-400"
           disabled={isLoading}
-          className="flex-1 px-3 sm:px-4 py-2 bg-gray-50 text-gray-900 placeholder-gray-400 
-                   text-sm sm:text-base
-                   rounded-xl border border-gray-200 
-                   focus:outline-none focus:border-green-300 focus:ring-1 focus:ring-green-300
-                   transition-colors duration-200
-                   disabled:opacity-50"
         />
-
         <button
           type="submit"
-          disabled={!message.trim() || isLoading}
-          className="px-3 sm:px-4 py-2 bg-green-50 text-green-600 rounded-xl
-                   border border-green-100
-                   hover:bg-green-100
-                   transition-colors duration-200
-                   disabled:opacity-50 disabled:hover:bg-green-50 disabled:cursor-not-allowed"
+          disabled={isLoading || !message.trim()}
+          className="absolute right-2 top-1/2 -translate-y-1/2
+                   p-1.5 rounded-lg
+                   text-white bg-green-500
+                   disabled:bg-gray-300 disabled:cursor-not-allowed
+                   transition-colors duration-200"
         >
-          <PaperAirplaneIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+          {isLoading ? (
+            <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+            </svg>
+          )}
         </button>
       </div>
     </form>

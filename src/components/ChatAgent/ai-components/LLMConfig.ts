@@ -2,9 +2,14 @@ import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
 
 export const createLLM = () => {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OPENAI_API_KEY environment variable is not set');
+  }
+
   return new ChatOpenAI({
     temperature: 0,
     modelName: 'gpt-4o-mini',
+    openAIApiKey: process.env.OPENAI_API_KEY,
   });
 };
 
