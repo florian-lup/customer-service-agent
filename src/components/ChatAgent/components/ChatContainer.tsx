@@ -8,6 +8,47 @@ interface ChatContainerProps {
   onClose: () => void;
 }
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+const fetchWithRetry = async (url: string, options: RequestInit, maxRetries: number = 3) => {
+  let lastError: Error | null = null;
+  
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+      
+      const res = await fetch(url, {
+        ...options,
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (res.status === 504) {
+        console.log(`🔄 Attempt ${attempt + 1}/${maxRetries} failed with 504, retrying...`);
+        const waitTime = Math.min(1000 * Math.pow(2, attempt), 8000); // exponential backoff, max 8 seconds
+        await delay(waitTime);
+        continue;
+      }
+      
+      return res;
+    } catch (error) {
+      lastError = error as Error;
+      if (error instanceof Error && error.name === 'AbortError') {
+        throw error; // Don't retry timeouts
+      }
+      if (attempt === maxRetries - 1) {
+        throw lastError;
+      }
+      const waitTime = Math.min(1000 * Math.pow(2, attempt), 8000);
+      await delay(waitTime);
+    }
+  }
+  
+  throw lastError;
+};
+
 export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState('');
@@ -19,7 +60,7 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
     console.log('🚀 Sending request to API:', { question: text });
     
     try {
-      const res = await fetch('/api/serviceAgent', {
+      const res = await fetchWithRetry('/api/serviceAgent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: text })
@@ -28,9 +69,22 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
       console.log('📥 API Response Status:', res.status);
       
       if (!res.ok) {
-        const errorData = await res.json();
-        console.error('❌ API Error:', errorData);
-        throw new Error(errorData.error || 'An error occurred while processing your request');
+        let errorMessage = 'An error occurred while processing your request';
+        
+        try {
+          const errorData = await res.json();
+          console.error('❌ API Error:', errorData);
+          errorMessage = errorData.error || errorMessage;
+        } catch (parseError) {
+          console.error('❌ Failed to parse error response:', parseError);
+          if (res.status === 504) {
+            errorMessage = 'The request took too long to process. Please try again or ask a shorter question.';
+          } else if (res.status === 502 || res.status === 503) {
+            errorMessage = 'The service is temporarily unavailable. Please try again in a moment.';
+          }
+        }
+        
+        throw new Error(errorMessage);
       }
 
       const data = await res.json();
@@ -46,7 +100,17 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
       setMessage('');
     } catch (error) {
       console.error('❌ Request Failed:', error);
-      setResponse(error instanceof Error ? error.message : 'Sorry, there was an error processing your request. Please try again.');
+      let errorMessage = 'Sorry, there was an error processing your request. Please try again.';
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          errorMessage = 'The request was cancelled due to taking too long. Please try again or ask a shorter question.';
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+      }
+      
+      setResponse(errorMessage);
       setShowResponse(true);
     } finally {
       setIsLoading(false);

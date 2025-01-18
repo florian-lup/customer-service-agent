@@ -57,7 +57,16 @@ export default function ChatWindow({
         <ChatHeader onClose={onClose} />
         
         <motion.div 
-          className="flex-1 p-3 sm:p-4 overflow-y-auto scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200"
+          className="flex-1 p-3 sm:p-4 overflow-y-auto pr-2
+                    scrollbar-thin scrollbar-track-transparent
+                    scrollbar-thumb-gray-200 hover:scrollbar-thumb-green-200
+                    [&::-webkit-scrollbar]:w-1.5
+                    [&::-webkit-scrollbar-track]:bg-transparent
+                    [&::-webkit-scrollbar-thumb]:rounded-full
+                    [&::-webkit-scrollbar-thumb]:bg-gray-200
+                    hover:[&::-webkit-scrollbar-thumb]:bg-green-200
+                    [&::-webkit-scrollbar-thumb]:border
+                    [&::-webkit-scrollbar-thumb]:border-white"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
@@ -75,7 +84,6 @@ export default function ChatWindow({
               </p>
               <ul className="text-sm text-gray-600 space-y-2 ml-4 list-disc">
                 <li>Product information and features</li>
-                <li>Technical support and troubleshooting</li>
                 <li>Account-related questions</li>
                 <li>Billing and payment inquiries</li>
               </ul>
@@ -89,6 +97,7 @@ export default function ChatWindow({
         <div className="border-t border-gray-100">
           <FAQSection 
             onQuestionClick={onFAQClick}
+            isLoading={isLoading}
           />
         </div>
 
