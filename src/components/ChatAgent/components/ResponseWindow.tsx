@@ -16,7 +16,7 @@ export default function ResponseWindow({ response, onClose }: ResponseWindowProp
         duration: 0.2,
         ease: "easeOut"
       }}
-      className="w-[min(90vw,420px)] h-[min(85vh,640px)] md:h-[min(85vh,640px)] flex flex-col bg-white rounded-2xl 
+      className="w-[min(90vw,460px)] h-[min(85vh,640px)] md:h-[min(85vh,640px)] flex flex-col bg-white rounded-2xl 
                  shadow-xl border border-gray-100 overflow-hidden shrink-0"
     >
       <div className="grow p-4 sm:p-5 overflow-y-auto 
