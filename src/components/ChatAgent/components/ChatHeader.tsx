@@ -1,11 +1,11 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
 
 interface ChatHeaderProps {
   onClose: () => void;
-  title?: string;
 }
 
-export default function ChatHeader({ onClose, title = "Chat Support" }: ChatHeaderProps) {
+export default function ChatHeader({ onClose }: ChatHeaderProps) {
   return (
     <div className="relative bg-white border-b border-gray-100">
       {/* Header content */}
@@ -14,10 +14,17 @@ export default function ChatHeader({ onClose, title = "Chat Support" }: ChatHead
           {/* Status indicator */}
           <div className="w-2 h-2 rounded-full bg-green-500" />
           
-          {/* Title */}
-          <h2 className="text-base font-medium text-gray-900">
-            {title}
-          </h2>
+          {/* Chat bot icon */}
+          <div className="relative w-8 h-8">
+            <Image
+              src="/chat-bot.png"
+              alt="Chat Bot"
+              width={32}
+              height={32}
+              className="w-full h-full object-contain"
+              quality={100}
+            />
+          </div>
         </div>
 
         {/* Close button */}

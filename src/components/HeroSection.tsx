@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import ChatButton from './ChatAgent/components/ChatButton';
 
 const ChatContainer = dynamic(() => import('./ChatAgent/components/ChatContainer'), { ssr: false });
@@ -73,13 +74,29 @@ export default function HeroSection() {
 
       {/* Main content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center container mx-auto px-4 sm:px-6">
-        {/* Top label */}
+        {/* Top label and image */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="w-full flex justify-end pt-4 sm:pt-6 md:pt-8"
+          className="w-full flex justify-between items-center pt-4 sm:pt-6 md:pt-8"
         >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="relative w-10 h-10 sm:w-14 sm:h-14"
+          >
+            <Image
+              src="/chat-bot.png"
+              alt="Chat Bot"
+              width={60}
+              height={60}
+              className="w-full h-full object-contain"
+              priority
+              quality={100}
+            />
+          </motion.div>
           <div className="px-3 sm:px-4 py-1.5 bg-gradient-to-r from-blue-50 to-green-50 rounded-full border border-blue-100/20 shadow-sm">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-600 text-xs sm:text-sm font-medium">
               AI-Powered Support

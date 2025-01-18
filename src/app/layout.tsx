@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "CS Agent",
   description: "An AI customer service agent that can help you 24/7.",
   icons: {
-    icon: "/globe.svg",
+    icon: "/chat-bot.png",
   },
 };
 
