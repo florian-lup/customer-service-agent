@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 interface ChatButtonProps {
   onClick: () => void;
 }
@@ -22,13 +24,14 @@ export default function ChatButton({ onClick }: ChatButtonProps) {
       {/* Content */}
       <div className="relative flex items-center gap-2.5">
         {/* Icon */}
-        <div className="p-1 rounded-lg bg-white/10 backdrop-blur-sm">
-          <svg className="w-4 h-4 text-white transition-transform duration-300 group-hover:rotate-12" 
-               fill="none" viewBox="0 0 24 24" stroke="currentColor"
-               aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-                  d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-          </svg>
+        <div className="relative w-5 h-5">
+          <Image
+            src="/chat-bot.png"
+            alt="Chat Bot"
+            fill
+            className="object-contain transition-transform duration-300 group-hover:rotate-12"
+            sizes="20px"
+          />
         </div>
         
         {/* Text */}
