@@ -49,8 +49,15 @@ export default function MessageInput({
   onSubmit,
   isLoading
 }: MessageInputProps) {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+    onMessageChange(''); // Clear input immediately
+    onSubmit(e);
+  };
+
   return (
-    <form onSubmit={onSubmit} className="p-3 sm:p-4 border-t">
+    <form onSubmit={handleSubmit} className="p-3 sm:p-4 border-t">
       <div className="relative">
         <input
           type="text"

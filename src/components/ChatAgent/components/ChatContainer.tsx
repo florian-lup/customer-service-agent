@@ -13,9 +13,11 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   const [response, setResponse] = useState('');
   const [showResponse, setShowResponse] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInputLoading, setIsInputLoading] = useState(false);
 
-  const sendToAPI = async (text: string) => {
-    setIsLoading(true);
+  const sendToAPI = async (text: string, isFAQ: boolean = false) => {
+    const setLoadingState = isFAQ ? setIsLoading : setIsInputLoading;
+    setLoadingState(true);
     console.log('🚀 Sending request to API:', { question: text });
     
     try {
@@ -56,7 +58,6 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
 
       setResponse(data.response);
       setShowResponse(true);
-      setMessage('');
     } catch (error) {
       console.error('❌ Request Failed:', error);
       let errorMessage = 'Sorry, there was an error processing your request. Please try again.';
@@ -68,7 +69,7 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
       setResponse(errorMessage);
       setShowResponse(true);
     } finally {
-      setIsLoading(false);
+      setLoadingState(false);
     }
   };
 
@@ -79,8 +80,7 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   };
 
   const handleFAQClick = (question: string) => {
-    setMessage(question);
-    sendToAPI(question);
+    sendToAPI(question, true);
   };
 
   return (
@@ -109,6 +109,7 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
                 onMessageSubmit={handleSubmit}
                 onFAQClick={handleFAQClick}
                 isLoading={isLoading}
+                isInputLoading={isInputLoading}
               />
             </motion.div>
 
