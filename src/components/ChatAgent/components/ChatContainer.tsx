@@ -98,9 +98,9 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
                        bg-white rounded-2xl shadow-xl overflow-hidden shrink-0"
               animate={{ 
                 x: showResponse ? (window.innerWidth >= 768 ? -30 : 0) : 0,
-                y: showResponse ? (window.innerWidth >= 768 ? 0 : -20) : 0
+                y: showResponse ? (window.innerWidth >= 768 ? 0 : 0) : 0
               }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
+              transition={{ duration: window.innerWidth >= 768 ? 0.2 : 0, ease: "easeInOut" }}
             >
               <ChatWindow
                 onClose={onClose}
