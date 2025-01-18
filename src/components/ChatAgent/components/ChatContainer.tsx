@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import ChatWindow from './ChatWindow';
 import ResponseWindow from './ResponseWindow';
 
@@ -58,27 +58,32 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center">
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div 
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={onClose}
-            />
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
             
+          {/* Content Container */}
+          <div className="relative flex flex-col md:flex-row items-stretch justify-center gap-1 w-full max-w-[90vw] mx-auto">
             {/* Chat Interface */}
-            <ChatWindow
-              onClose={onClose}
-              message={message}
-              onMessageChange={setMessage}
-              onMessageSubmit={handleSubmit}
-              onFAQClick={handleFAQClick}
-              isLoading={isLoading}
-            />
+            <motion.div
+              className="w-[min(90vw,400px)] sm:w-[400px] h-[min(85vh,640px)] md:h-[min(85vh,640px)] flex flex-col 
+                       bg-white rounded-2xl shadow-xl overflow-hidden shrink-0"
+              animate={{ 
+                x: showResponse ? (window.innerWidth >= 768 ? -30 : 0) : 0,
+                y: showResponse ? (window.innerWidth >= 768 ? 0 : -20) : 0
+              }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+              <ChatWindow
+                onClose={onClose}
+                message={message}
+                onMessageChange={setMessage}
+                onMessageSubmit={handleSubmit}
+                onFAQClick={handleFAQClick}
+                isLoading={isLoading}
+              />
+            </motion.div>
 
             {/* Response Window */}
             {showResponse && (
@@ -87,9 +92,9 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
                 onClose={() => setShowResponse(false)}
               />
             )}
-          </>
-        )}
-      </AnimatePresence>
+          </div>
+        </>
+      )}
     </div>
   );
 } 
