@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Customer Service Agent
 
-## Getting Started
+An AI-native customer service chat interface built with Next.js and LangChain. This application provides an interactive chat experience for users to get support and answers to their questions. The agent utilizes SerpAPI to perform real-time web searches, allowing it to provide up-to-date and accurate information in response to user queries.
 
-First, run the development server:
+## How It Works
+
+The customer service agent combines the power of:
+
+- OpenAI's language model for natural conversation
+- SerpAPI for real-time web searches to find relevant information
+- LangChain for orchestrating the interaction between these tools
+
+When a user asks a question, the agent:
+
+1. Analyzes the query to understand the information needed
+2. Performs a web search using SerpAPI to gather relevant, up-to-date information
+3. Processes and synthesizes the search results
+4. Provides a comprehensive, natural response based on the found information
+
+## Features
+
+- 🤖 AI-powered chat interface
+- 💬 Real-time message streaming
+- 🎨 Modern and responsive UI
+- 📱 Mobile-friendly design
+- ⚡ Fast and efficient responses
+- 🔍 FAQ section with common queries
+- 🔎 Web search capabilities using SerpAPI
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Node.js (v18 or higher)
+- npm or yarn package manager
+- OpenAI API key
+- SerpAPI key (for web search functionality)
+
+## Environment Setup
+
+1. Clone the repository
+2. Create a `.env.local` file in the root directory with the following variables:
+
+```
+OPENAI_API_KEY=your_api_key_here
+SERPAPI_API_KEY=your_serpapi_key_here
+```
+
+## Installation
 
 ```bash
+# Install dependencies
+npm install
+# or
+yarn install
+
+# Run the development server
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000] with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: Next.js 15.1
+- **Language**: TypeScript
+- **UI Libraries**:
+  - Tailwind CSS
+  - Framer Motion
+  - Hero Icons
+- **AI Integration**:
+  - LangChain
+  - OpenAI
+- **Markdown Support**:
+  - React Markdown
+  - Remark GFM
+  - Rehype Raw
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/                 # Next.js app directory
+├── components/
+│   ├── ChatAgent/      # Chat interface components
+│   │   ├── ai-components/  # AI configuration and tools
+│   │   └── components/     # UI components
+│   └── HeroSection/    # Landing page components
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.
