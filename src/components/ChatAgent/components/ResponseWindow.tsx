@@ -38,7 +38,7 @@ export default function ResponseWindow({ response, onClose }: ResponseWindowProp
                     [&>*]:mb-4
                     [&>ul>li]:list-disc [&>ul>li]::marker:text-gray-900
                     [&_ul]:my-0.5 [&_ul]:pl-5
-                    [&_ul_ul>li]:list-[circle] [&_ul_ul>li]::marker:text-gray-600
+                    [&_ul>li]:list-disc [&_ul>li]::marker:text-gray-900
                     [&_ol]:my-0.5 [&_ol]:pl-5
                     [&_li]:pl-0 [&_li]:ml-4
                     [&_ol>li]:list-decimal [&_ol>li]::marker:text-gray-900">

@@ -8,47 +8,6 @@ interface ChatContainerProps {
   onClose: () => void;
 }
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-const fetchWithRetry = async (url: string, options: RequestInit, maxRetries: number = 3) => {
-  let lastError: Error | null = null;
-  
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
-      
-      const res = await fetch(url, {
-        ...options,
-        signal: controller.signal
-      });
-      
-      clearTimeout(timeoutId);
-      
-      if (res.status === 504) {
-        console.log(`🔄 Attempt ${attempt + 1}/${maxRetries} failed with 504, retrying...`);
-        const waitTime = Math.min(1000 * Math.pow(2, attempt), 8000); // exponential backoff, max 8 seconds
-        await delay(waitTime);
-        continue;
-      }
-      
-      return res;
-    } catch (error) {
-      lastError = error as Error;
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw error; // Don't retry timeouts
-      }
-      if (attempt === maxRetries - 1) {
-        throw lastError;
-      }
-      const waitTime = Math.min(1000 * Math.pow(2, attempt), 8000);
-      await delay(waitTime);
-    }
-  }
-  
-  throw lastError;
-};
-
 export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState('');
@@ -60,7 +19,7 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
     console.log('🚀 Sending request to API:', { question: text });
     
     try {
-      const res = await fetchWithRetry('/api/serviceAgent', {
+      const res = await fetch('/api/serviceAgent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: text })
@@ -102,12 +61,8 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
       console.error('❌ Request Failed:', error);
       let errorMessage = 'Sorry, there was an error processing your request. Please try again.';
       
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          errorMessage = 'The request was cancelled due to taking too long. Please try again or ask a shorter question.';
-        } else if (error.message) {
-          errorMessage = error.message;
-        }
+      if (error instanceof Error && error.message) {
+        errorMessage = error.message;
       }
       
       setResponse(errorMessage);
