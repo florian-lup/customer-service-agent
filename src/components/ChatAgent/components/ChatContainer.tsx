@@ -16,6 +16,8 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
 
   const sendToAPI = async (text: string) => {
     setIsLoading(true);
+    console.log('🚀 Sending request to API:', { question: text });
+    
     try {
       const res = await fetch('/api/serviceAgent', {
         method: 'POST',
@@ -23,13 +25,19 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
         body: JSON.stringify({ question: text })
       });
 
+      console.log('📥 API Response Status:', res.status);
+      
       if (!res.ok) {
         const errorData = await res.json();
+        console.error('❌ API Error:', errorData);
         throw new Error(errorData.error || 'An error occurred while processing your request');
       }
 
       const data = await res.json();
+      console.log('✅ API Response:', data);
+      
       if (!data.response) {
+        console.error('❌ Invalid Response Format:', data);
         throw new Error('Invalid response format from server');
       }
 
@@ -37,7 +45,7 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
       setShowResponse(true);
       setMessage('');
     } catch (error) {
-      console.error('Error:', error);
+      console.error('❌ Request Failed:', error);
       setResponse(error instanceof Error ? error.message : 'Sorry, there was an error processing your request. Please try again.');
       setShowResponse(true);
     } finally {

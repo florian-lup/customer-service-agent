@@ -1,37 +1,26 @@
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
 
-const log = (message: string, data?: unknown) => {
-  const timestamp = new Date().toISOString();
-  console.warn(`[${timestamp}] ${message}`);
-  if (data) console.dir(data, { depth: null });
-};
-
 export const createLLM = () => {
-  log('🔧 Creating LLM instance...');
-  
   if (!process.env.OPENAI_API_KEY) {
-    log('❌ OPENAI_API_KEY environment variable is not set');
     throw new Error('OPENAI_API_KEY environment variable is not set');
   }
 
   try {
     const llm = new ChatOpenAI({
-      temperature: 0.5,
+      temperature: 0.7,
       modelName: 'gpt-4o-mini',
       openAIApiKey: process.env.OPENAI_API_KEY,
     });
-    log('✅ LLM instance created successfully');
     return llm;
   } catch (error) {
-    log('❌ Error creating LLM instance:', error);
     throw error;
   }
 };
 
 export const createPromptTemplate = () => {
   return ChatPromptTemplate.fromMessages([
-    ["system", "You are a Lugg.com customer service assistant. Your role is to provide clear, accurate answers about Lugg's moving services by searching their website. Keep responses concise but informative, focusing on the specific question asked. If the information isn't directly available on Lugg.com, say so and provide the most relevant general information about their services."],
+    ["system", "You are a knowledgeable Lugg.com customer service assistant. Your role is to provide comprehensive, detailed answers about Lugg's moving services by searching their website. When responding: \n- Provide thorough explanations with relevant details and examples\n- Break down complex topics into clear, digestible points\n- Include direct links to relevant Lugg.com pages where users can find more information\n- Cite specific sections or pages from Lugg.com when providing information\n- Anticipate and address related concerns or follow-up questions\n- If certain information isn't directly available on Lugg.com, clearly state this and provide the most relevant general information about their services, along with suggestions for getting more specific details\nAlways maintain a professional yet friendly tone, and ensure responses are well-structured and easy to understand."],
     ["human", "{input}"],
     new MessagesPlaceholder("agent_scratchpad"),
   ]);

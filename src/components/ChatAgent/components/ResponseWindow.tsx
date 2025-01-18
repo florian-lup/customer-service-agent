@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 
 interface ResponseWindowProps {
   response: string;
@@ -24,10 +25,16 @@ export default function ResponseWindow({ response, onClose }: ResponseWindowProp
                   [&::-webkit-scrollbar]:w-1.5
                   [&::-webkit-scrollbar-track]:bg-transparent
                   [&::-webkit-scrollbar-thumb]:rounded-full">
-        <div className="max-w-prose mx-auto">
-          <p className="text-gray-700 whitespace-pre-wrap text-sm sm:text-base leading-relaxed">
+        <div className="max-w-prose mx-auto prose prose-sm sm:prose-base prose-green">
+          <ReactMarkdown
+            components={{
+              a: ({ ...props }) => (
+                <a {...props} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 underline" />
+              ),
+            }}
+          >
             {response}
-          </p>
+          </ReactMarkdown>
         </div>
       </div>
 
