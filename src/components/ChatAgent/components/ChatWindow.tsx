@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import ChatHeader from './ChatHeader';
 import FAQSection from './FAQSection';
 import MessageInput from './MessageInput';
@@ -13,29 +12,6 @@ interface ChatWindowProps {
   isInputLoading: boolean;
 }
 
-const windowVariants = {
-  initial: {
-    opacity: 0,
-    scale: 0.9,
-  },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut"
-    }
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.9,
-    transition: {
-      duration: 0.2,
-      ease: "easeIn"
-    }
-  }
-};
-
 export default function ChatWindow({
   onClose,
   message,
@@ -48,17 +24,13 @@ export default function ChatWindow({
   return (
     <div className="fixed inset-0 flex items-center justify-center">
       {/* Chat Window */}
-      <motion.div
-        variants={windowVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
+      <div
         className="relative w-full h-full sm:w-[400px] sm:h-[600px] sm:max-h-[90vh] 
                  bg-white sm:rounded-2xl shadow-xl flex flex-col overflow-hidden"
       >
         <ChatHeader onClose={onClose} />
         
-        <motion.div 
+        <div 
           className="flex-1 p-3 sm:p-4 overflow-y-auto pr-2
                     scrollbar-thin scrollbar-track-transparent
                     scrollbar-thumb-gray-200 hover:scrollbar-thumb-green-200
@@ -69,17 +41,9 @@ export default function ChatWindow({
                     hover:[&::-webkit-scrollbar-thumb]:bg-green-200
                     [&::-webkit-scrollbar-thumb]:border
                     [&::-webkit-scrollbar-thumb]:border-white"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
         >
           <div className="space-y-4">
-            <motion.div 
-              className="bg-green-50 p-4 rounded-xl border border-green-100"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-            >
+            <div className="bg-green-50 p-4 rounded-xl border border-green-100">
               <h3 className="font-medium text-gray-800 mb-2">Welcome to Customer Support! 👋</h3>
               <p className="text-sm text-gray-600 mb-3">
                 I&apos;m your virtual assistant, ready to help you with:
@@ -92,9 +56,9 @@ export default function ChatWindow({
               <p className="text-sm text-gray-600 mt-3">
                 Feel free to ask any questions or check out the frequently asked questions below!
               </p>
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
+        </div>
 
         <div className="border-t border-gray-100">
           <FAQSection 
@@ -111,7 +75,7 @@ export default function ChatWindow({
             isLoading={isInputLoading}
           />
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 } 
