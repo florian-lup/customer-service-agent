@@ -63,7 +63,7 @@ export default function MessageInput({
           type="text"
           value={message}
           onChange={(e) => onMessageChange(e.target.value)}
-          placeholder="Type your question..."
+          placeholder={isLoading ? "Processing your question..." : "Type your question..."}
           className="w-full pr-12 pl-4 py-2 sm:py-2.5 rounded-xl border border-gray-200
                    focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none
                    text-sm text-gray-900 placeholder:text-gray-400"

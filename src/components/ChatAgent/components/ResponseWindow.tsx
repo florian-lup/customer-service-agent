@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
+import { useEffect, useRef } from 'react';
 
 interface ResponseWindowProps {
   response: string;
@@ -7,6 +8,14 @@ interface ResponseWindowProps {
 }
 
 export default function ResponseWindow({ response, onClose }: ResponseWindowProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+    }
+  }, [response]);
+  
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -20,7 +29,8 @@ export default function ResponseWindow({ response, onClose }: ResponseWindowProp
                  flex flex-col bg-white
                  md:rounded-2xl shadow-xl border border-gray-100 overflow-hidden"
     >
-      <div className="grow px-3 py-4 sm:p-5 overflow-y-auto overscroll-contain
+      <div ref={scrollRef}
+           className="grow px-3 py-4 sm:p-5 overflow-y-auto overscroll-contain
                   scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
                   active:scrollbar-thumb-green-300
                   touch-pan-y
