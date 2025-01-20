@@ -91,16 +91,16 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
             
           {/* Content Container */}
-          <div className="relative flex flex-col md:flex-row items-stretch justify-center gap-1 w-full max-w-[90vw] mx-auto">
+          <div className="relative flex flex-col md:flex-row items-stretch justify-center gap-4 w-full max-w-screen-lg mx-auto px-4 md:px-6">
             {/* Chat Interface */}
             <motion.div
-              className="w-[min(90vw,400px)] sm:w-[400px] h-[min(85vh,640px)] md:h-[min(85vh,640px)] flex flex-col 
-                       bg-white rounded-2xl shadow-xl overflow-hidden shrink-0"
+              className="fixed md:relative inset-0 md:inset-auto z-40 md:z-auto
+                       w-full md:w-[400px] h-screen md:h-[640px] flex flex-col 
+                       bg-white rounded-none md:rounded-2xl shadow-xl overflow-hidden shrink-0"
               animate={{ 
-                x: showResponse ? (window.innerWidth >= 768 ? -30 : 0) : 0,
-                y: showResponse ? (window.innerWidth >= 768 ? 0 : 0) : 0
+                opacity: showResponse && window.innerWidth < 768 ? 0 : 1
               }}
-              transition={{ duration: window.innerWidth >= 768 ? 0.2 : 0, ease: "easeInOut" }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             >
               <ChatWindow
                 onClose={onClose}
@@ -115,10 +115,18 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
 
             {/* Response Window */}
             {showResponse && (
-              <ResponseWindow
-                response={response}
-                onClose={() => setShowResponse(false)}
-              />
+              <motion.div
+                initial={{ opacity: 0, x: window.innerWidth >= 768 ? 40 : 0 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="fixed md:relative inset-0 md:inset-auto z-50 md:z-auto"
+              >
+                <ResponseWindow
+                  response={response}
+                  onClose={() => setShowResponse(false)}
+                />
+              </motion.div>
             )}
           </div>
         </>

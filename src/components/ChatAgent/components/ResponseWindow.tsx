@@ -7,21 +7,18 @@ interface ResponseWindowProps {
 }
 
 export default function ResponseWindow({ response, onClose }: ResponseWindowProps) {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-  
   return (
     <motion.div
-      initial={{ opacity: isMobile ? 1 : 0, scale: isMobile ? 1 : 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: isMobile ? 1 : 0, scale: isMobile ? 1 : 0.95 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ 
-        duration: isMobile ? 0 : 0.2,
+        duration: 0.2,
         ease: "easeOut"
       }}
-      className="fixed sm:relative inset-0 sm:inset-auto
-                 w-full sm:w-[min(90vw,460px)] h-screen sm:h-[min(85vh,640px)] 
-                 flex flex-col bg-white z-50
-                 sm:rounded-2xl shadow-xl border border-gray-100 overflow-hidden shrink-0"
+      className="w-full h-full md:w-[460px] md:h-[640px] 
+                 flex flex-col bg-white
+                 md:rounded-2xl shadow-xl border border-gray-100 overflow-hidden"
     >
       <div className="grow px-3 py-4 sm:p-5 overflow-y-auto overscroll-contain
                   scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
@@ -65,14 +62,14 @@ export default function ResponseWindow({ response, onClose }: ResponseWindowProp
         </div>
       </div>
 
-      <div className="shrink-0 px-4 py-4 sm:py-3 border-t border-gray-100 flex justify-between items-center bg-gradient-to-r from-gray-50/80 via-white/40 to-gray-50/80">
+      <div className="shrink-0 px-4 py-3 sm:py-4 border-t border-gray-100 flex justify-between items-center bg-gradient-to-r from-gray-50/80 via-white/40 to-gray-50/80">
         <div className="flex items-center space-x-2">
           <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
           <span className="text-xs text-gray-400">AI Response</span>
         </div>
         <button
           onClick={onClose}
-          className="px-3 py-1.5 -my-1.5 -mr-3 text-sm sm:text-xs text-gray-400 hover:text-gray-600 active:text-gray-800 transition-colors duration-200"
+          className="px-3 py-1.5 -my-1.5 -mr-1 sm:-mr-3 text-sm text-gray-400 hover:text-gray-600 active:text-gray-800 transition-colors duration-200"
           aria-label="Close response window"
         >
           Close
