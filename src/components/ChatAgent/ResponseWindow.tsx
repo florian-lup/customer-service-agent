@@ -21,16 +21,11 @@ export default function ResponseWindow({ response, onClose }: ResponseWindowProp
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ 
-        duration: 0.2,
-        ease: "easeOut"
-      }}
-      className="w-full h-full md:w-[460px] md:h-[640px] 
-                 flex flex-col bg-white
-                 md:rounded-2xl shadow-xl border border-gray-100 overflow-hidden"
+      transition={{ duration: 0.2 }}
+      className="w-full h-full flex flex-col bg-white rounded-none md:rounded-2xl shadow-xl overflow-hidden"
     >
       <div ref={scrollRef}
-           className="grow px-3 py-4 sm:p-5 overflow-y-auto overscroll-contain
+           className="grow px-4 py-4 overflow-y-auto overscroll-contain
                   scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
                   active:scrollbar-thumb-green-300
                   touch-pan-y

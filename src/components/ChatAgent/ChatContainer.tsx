@@ -87,26 +87,19 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
+    <div className="fixed inset-0 md:flex md:items-center md:justify-center">
       {isOpen && (
         <>
-          {/* Backdrop */}
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
             
-          {/* Content Container */}
-          <div className="relative flex flex-col md:flex-row items-stretch justify-center gap-4 w-full max-w-screen-lg mx-auto px-4 md:px-6">
-            {/* Chat Interface */}
+          <div className="relative h-full md:h-auto flex flex-col md:flex-row items-stretch justify-center gap-4 w-full max-w-screen-lg mx-auto">
             <motion.div
-              className="fixed md:relative inset-0 md:inset-auto z-40 md:z-auto
-                       w-full md:w-[400px] h-screen md:h-[640px] flex flex-col 
-                       bg-white rounded-none md:rounded-2xl shadow-xl overflow-hidden shrink-0"
-              animate={{ 
-                opacity: showResponse && window.innerWidth < 768 ? 0 : 1
-              }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              className={`absolute md:relative inset-0 md:inset-auto w-full md:w-[400px] h-full md:h-auto md:min-h-[480px] md:max-h-[85vh] flex flex-col 
+                       bg-white rounded-none md:rounded-2xl shadow-xl overflow-hidden
+                       ${showResponse ? 'hidden md:flex' : 'flex'}`}
             >
               <div className="h-full flex flex-col">
-                <div className="relative w-full h-full flex flex-col overflow-hidden bg-white sm:rounded-2xl shadow-xl">
+                <div className="relative w-full h-full flex flex-col overflow-hidden bg-white sm:rounded-2xl">
                   <ChatHeader onClose={onClose} />
                   <ChatWindow />
                   <div className="border-t border-gray-100 bg-white/80 backdrop-blur-sm">
@@ -127,14 +120,12 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
               </div>
             </motion.div>
 
-            {/* Response Window */}
             {showResponse && (
               <motion.div
-                initial={{ opacity: 0, x: window.innerWidth >= 768 ? 40 : 0 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                className="fixed md:relative inset-0 md:inset-auto z-50 md:z-auto"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                className="absolute md:relative inset-0 md:inset-auto w-full md:w-[460px] h-full md:h-auto md:min-h-[480px] md:max-h-[85vh]"
               >
                 <ResponseWindow
                   response={response}
