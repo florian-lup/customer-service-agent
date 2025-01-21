@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import ChatWindow from './ChatWindow';
+import ChatWindow from './components/ChatWindow';
 import ResponseWindow from './ResponseWindow';
+import ChatHeader from './components/ChatHeader';
+import FAQSection from './components/FAQSection';
+import MessageInput from './components/MessageInput';
 
 interface ChatContainerProps {
   isOpen: boolean;
@@ -102,15 +105,26 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
               }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
-              <ChatWindow
-                onClose={onClose}
-                message={message}
-                onMessageChange={setMessage}
-                onMessageSubmit={handleSubmit}
-                onFAQClick={handleFAQClick}
-                isLoading={isLoading}
-                isInputLoading={isInputLoading}
-              />
+              <div className="h-full flex flex-col">
+                <div className="relative w-full h-full flex flex-col overflow-hidden bg-white sm:rounded-2xl shadow-xl">
+                  <ChatHeader onClose={onClose} />
+                  <ChatWindow />
+                  <div className="border-t border-gray-100 bg-white/80 backdrop-blur-sm">
+                    <FAQSection 
+                      onQuestionClick={handleFAQClick}
+                      isLoading={isLoading}
+                    />
+                  </div>
+                  <div className="border-t border-gray-100 bg-white">
+                    <MessageInput
+                      message={message}
+                      onMessageChange={setMessage}
+                      onSubmit={handleSubmit}
+                      isLoading={isInputLoading}
+                    />
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
             {/* Response Window */}

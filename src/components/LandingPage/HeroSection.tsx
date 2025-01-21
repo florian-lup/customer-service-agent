@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
-import ChatButton from './ChatAgent/components/ChatButton';
+import ChatButton from './components/ChatButton';
 
-const ChatContainer = dynamic(() => import('./ChatAgent/components/ChatContainer'), { ssr: false });
+const ChatContainer = dynamic(() => import('../ChatAgent/ChatContainer'), { ssr: false });
 
 export default function HeroSection() {
   const [isChatOpen, setIsChatOpen] = useState(false);
