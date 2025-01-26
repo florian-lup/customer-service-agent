@@ -26,7 +26,7 @@ export default function ChatButton({ onClick }: ChatButtonProps) {
         {/* Icon */}
         <div className="relative w-5 h-5">
           <Image
-            src="/chat-bot.png"
+            src="/chat-bot.svg"
             alt="Chat Bot"
             fill
             className="object-contain transition-transform duration-300 group-hover:rotate-12"
