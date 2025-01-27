@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import * as Dialog from '@radix-ui/react-dialog';
 import ChatWindow from './components/ChatWindow';
 import ResponseWindow from './ResponseWindow';
 import ChatHeader from './components/ChatHeader';
@@ -83,11 +84,15 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   };
 
   return (
-    <div className="fixed inset-0 md:flex md:items-center md:justify-center">
-      {isOpen && (
-        <>
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-            
+    <Dialog.Root open={isOpen} onOpenChange={() => onClose()}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm data-[state=open]:animate-fadeIn z-50" />
+        <Dialog.Content className="fixed inset-0 md:flex md:items-center md:justify-center data-[state=open]:animate-contentShow z-50">
+          <Dialog.Title className="sr-only">Customer Support Chat</Dialog.Title>
+          <Dialog.Description className="sr-only">
+            Chat with our AI assistant for customer support. You can ask questions, get help with products, and resolve issues.
+          </Dialog.Description>
+          
           <div className="relative h-full md:h-auto flex flex-col md:flex-row items-stretch justify-center gap-4 w-full max-w-screen-lg mx-auto">
             <motion.div
               className={`absolute md:relative inset-0 md:inset-auto w-full md:w-[400px] h-full md:h-auto md:min-h-[480px] md:max-h-[85vh] flex flex-col 
@@ -130,8 +135,8 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
               </motion.div>
             )}
           </div>
-        </>
-      )}
-    </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 } 
