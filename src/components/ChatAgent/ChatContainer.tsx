@@ -5,11 +5,7 @@ import ResponseWindow from './ResponseWindow';
 import ChatHeader from './components/ChatHeader';
 import FAQSection from './components/FAQSection';
 import MessageInput from './components/MessageInput';
-
-interface ChatContainerProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { ChatContainerProps } from '../../types/chat';
 
 export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   const [message, setMessage] = useState('');

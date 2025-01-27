@@ -8,7 +8,7 @@ export const createLLM = () => {
 
   try {
     const llm = new ChatOpenAI({
-      temperature: 0.9,
+      temperature: 0.5,
       modelName: 'gpt-4o-mini',
       openAIApiKey: process.env.OPENAI_API_KEY,
     });
