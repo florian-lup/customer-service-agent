@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { scrollbarStyles } from './ChatWindow';
 
 export const FAQ_QUESTIONS = [
   "What are Lugg's business hours for moving services?",
@@ -40,16 +41,7 @@ export default function FAQSection({ onQuestionClick, isLoading }: FAQSectionPro
         Frequently Asked Questions
       </p>
 
-      <div className="space-y-2 max-h-[160px] sm:max-h-[180px] overflow-y-auto pr-2
-                    scrollbar-thin scrollbar-track-transparent
-                    scrollbar-thumb-gray-200 hover:scrollbar-thumb-green-200
-                    [&::-webkit-scrollbar]:w-1.5
-                    [&::-webkit-scrollbar-track]:bg-transparent
-                    [&::-webkit-scrollbar-thumb]:rounded-full
-                    [&::-webkit-scrollbar-thumb]:bg-gray-200
-                    hover:[&::-webkit-scrollbar-thumb]:bg-green-200
-                    [&::-webkit-scrollbar-thumb]:border
-                    [&::-webkit-scrollbar-thumb]:border-white">
+      <div className={`space-y-2 max-h-[160px] sm:max-h-[180px] overflow-y-auto pr-2 ${scrollbarStyles}`}>
         {FAQ_QUESTIONS.map((question, index) => {
           const isSelected = selectedQuestion === question;
           const isCurrentlyLoading = isLoading && loadingQuestion === question;

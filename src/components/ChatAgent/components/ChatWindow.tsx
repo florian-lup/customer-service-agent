@@ -1,16 +1,17 @@
+export const scrollbarStyles = `scrollbar-thin scrollbar-track-transparent
+  scrollbar-thumb-gray-200 hover:scrollbar-thumb-green-200
+  [&::-webkit-scrollbar]:w-1.5
+  [&::-webkit-scrollbar-track]:bg-transparent
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-200
+  hover:[&::-webkit-scrollbar-thumb]:bg-green-200
+  [&::-webkit-scrollbar-thumb]:border
+  [&::-webkit-scrollbar-thumb]:border-white`;
+
 export default function ChatWindow() {
   return (
     <div 
-      className="flex-1 p-3 sm:p-4 lg:p-5 overflow-y-auto
-                scrollbar-thin scrollbar-track-transparent
-                scrollbar-thumb-gray-200 hover:scrollbar-thumb-green-200
-                [&::-webkit-scrollbar]:w-1.5
-                [&::-webkit-scrollbar-track]:bg-transparent
-                [&::-webkit-scrollbar-thumb]:rounded-full
-                [&::-webkit-scrollbar-thumb]:bg-gray-200
-                hover:[&::-webkit-scrollbar-thumb]:bg-green-200
-                [&::-webkit-scrollbar-thumb]:border
-                [&::-webkit-scrollbar-thumb]:border-white"
+      className={`flex-1 p-3 sm:p-4 lg:p-5 overflow-y-auto pr-2 ${scrollbarStyles}`}
     >
       <div className="space-y-4 max-w-prose mx-auto">
         <div className="bg-green-50 p-4 rounded-xl border border-green-100">
