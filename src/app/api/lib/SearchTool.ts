@@ -9,7 +9,6 @@ export const createSearchTool = () => {
     location: 'United States',
     hl: 'en',
     gl: 'us',
-    google_domain: 'google.com',
-    as_sitesearch: 'lugg.com'
+    google_domain: 'google.com'
   });
 }; 

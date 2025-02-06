@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { FAQQuestion } from '@/components/ChatAgent/components/FAQSection';
 import { createOpenAIFunctionsAgent, AgentExecutor } from 'langchain/agents';
-import { createLLM, createPromptTemplate } from '@/components/ChatAgent/core/LLMConfig';
-import { createSearchTool } from '@/components/ChatAgent/core/SearchTool';
+import { createLLM, createPromptTemplate } from '../lib/LLMConfig';
+import { createSearchTool } from '../lib/SearchTool';
 
 // Create the agent once
 let agent: Awaited<ReturnType<typeof createOpenAIFunctionsAgent>> | null = null;
