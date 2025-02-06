@@ -1,5 +1,7 @@
+import React from 'react';
 import { Components } from 'react-markdown';
 
+// Tailwind prose styles for markdown content
 export const proseStyles = `prose prose-sm sm:prose-base prose-green !text-gray-900
   prose-h1:text-lg prose-h1:font-semibold prose-h1:mb-3
   prose-h2:text-base prose-h2:font-semibold prose-h2:mb-3 prose-h2:mt-6
@@ -21,16 +23,23 @@ export const proseStyles = `prose prose-sm sm:prose-base prose-green !text-gray-
   [&_ul>li:last-child]:mb-6
   [&>ul:last-child]:mb-0 [&>ol:last-child]:mb-0`;
 
+// Custom components for ReactMarkdown
 export const markdownComponents: Components = {
-  a: ({ ...props }) => (
+  // Link component
+  a: ({ children, ...props }) => (
     <a 
       {...props} 
       target="_blank" 
       rel="noopener noreferrer" 
-      className="!text-green-600 hover:!text-green-700 underline active:!text-green-800" 
-    />
+      className="!text-green-600 hover:!text-green-700 underline active:!text-green-800"
+    >
+      {children}
+    </a>
   ),
-  p: ({ ...props }) => (
-    <p {...props} className="!text-gray-900" />
+  // Paragraph component
+  p: ({ children, ...props }) => (
+    <p {...props} className="!text-gray-900">
+      {children}
+    </p>
   )
 }; 

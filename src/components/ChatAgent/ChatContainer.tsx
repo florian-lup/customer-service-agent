@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
 import ChatWindow from './components/ChatWindow';
@@ -6,72 +5,28 @@ import ResponseWindow from './ResponseWindow';
 import ChatHeader from './components/ChatHeader';
 import FAQSection from './components/FAQSection';
 import MessageInput from './components/MessageInput';
-import { ChatContainerProps } from '../../types/chat';
+import { ChatContainerProps } from '../../types/components';
+import { useChatState } from '../../hooks/useChatState';
+import { useServiceAgent } from '../../hooks/useServiceAgent';
 
 export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
-  const [message, setMessage] = useState('');
-  const [response, setResponse] = useState('');
-  const [showResponse, setShowResponse] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInputLoading, setIsInputLoading] = useState(false);
+  const {
+    message,
+    response,
+    showResponse,
+    isLoading,
+    isInputLoading,
+    setMessage,
+    setResponse,
+    setShowResponse,
+    setIsInputLoading
+  } = useChatState();
 
-  const sendToAPI = async (text: string, isFAQ: boolean = false) => {
-    const setLoadingState = isFAQ ? setIsLoading : setIsInputLoading;
-    setLoadingState(true);
-    console.log('🚀 Sending request to API:', { question: text });
-    
-    try {
-      const res = await fetch('/api/serviceAgent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: text })
-      });
-
-      console.log('📥 API Response Status:', res.status);
-      
-      if (!res.ok) {
-        let errorMessage = 'An error occurred while processing your request';
-        
-        try {
-          const errorData = await res.json();
-          console.error('❌ API Error:', errorData);
-          errorMessage = errorData.error || errorMessage;
-        } catch (parseError) {
-          console.error('❌ Failed to parse error response:', parseError);
-          if (res.status === 504) {
-            errorMessage = 'The request took too long to process. Please try again or ask a shorter question.';
-          } else if (res.status === 502 || res.status === 503) {
-            errorMessage = 'The service is temporarily unavailable. Please try again in a moment.';
-          }
-        }
-        
-        throw new Error(errorMessage);
-      }
-
-      const data = await res.json();
-      console.log('✅ API Response:', data);
-      
-      if (!data.response) {
-        console.error('❌ Invalid Response Format:', data);
-        throw new Error('Invalid response format from server');
-      }
-
-      setResponse(data.response);
-      setShowResponse(true);
-    } catch (error) {
-      console.error('❌ Request Failed:', error);
-      let errorMessage = 'Sorry, there was an error processing your request. Please try again.';
-      
-      if (error instanceof Error && error.message) {
-        errorMessage = error.message;
-      }
-      
-      setResponse(errorMessage);
-      setShowResponse(true);
-    } finally {
-      setLoadingState(false);
-    }
-  };
+  const { sendToAPI } = useServiceAgent(
+    setResponse,
+    setShowResponse,
+    setIsInputLoading
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,7 +35,7 @@ export default function ChatContainer({ isOpen, onClose }: ChatContainerProps) {
   };
 
   const handleFAQClick = (question: string) => {
-    sendToAPI(question, true);
+    sendToAPI(question);
   };
 
   return (
