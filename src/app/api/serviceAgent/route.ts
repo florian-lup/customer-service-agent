@@ -1,32 +1,37 @@
 import { NextResponse } from 'next/server';
-import { FAQQuestion } from '@/components/ChatAgent/components/FAQSection';
 import { createOpenAIFunctionsAgent, AgentExecutor } from 'langchain/agents';
 import { createLLM, createPromptTemplate } from '../lib/LLMConfig';
 import { createSearchTool } from '../lib/SearchTool';
+import { 
+  AgentInstance, 
+  ServiceAgentRequest, 
+  ServiceAgentResponse, 
+  ServiceAgentErrorResponse 
+} from '../types';
 
 // Create the agent once
-let agent: Awaited<ReturnType<typeof createOpenAIFunctionsAgent>> | null = null;
+let agent: AgentInstance | null = null;
 let executor: AgentExecutor | null = null;
 
 export async function POST(req: Request) {
   try {
     // Check for required environment variables
     if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json(
+      return NextResponse.json<ServiceAgentErrorResponse>(
         { error: 'OpenAI API key is not configured. Please check the server configuration.' },
         { status: 500 }
       );
     }
 
     if (!process.env.SERPAPI_API_KEY) {
-      return NextResponse.json(
+      return NextResponse.json<ServiceAgentErrorResponse>(
         { error: 'SerpAPI key is not configured. Please check the server configuration.' },
         { status: 500 }
       );
     }
 
     const body = await req.json();
-    const { question } = body as { question: FAQQuestion };
+    const { question } = body as ServiceAgentRequest;
     
     // Initialize components and agent if not already done
     if (!agent || !executor) {
@@ -46,7 +51,7 @@ export async function POST(req: Request) {
           tools: [searchTool]
         });
       } catch {
-        return NextResponse.json(
+        return NextResponse.json<ServiceAgentErrorResponse>(
           { error: 'Failed to initialize AI components. Please check the server configuration.' },
           { status: 500 }
         );
@@ -58,28 +63,28 @@ export async function POST(req: Request) {
       input: question,
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json<ServiceAgentResponse>({ 
       response: result.output,
       question 
     });
   } catch (error) {
     if (error instanceof Error) {
       if (error.message.includes('API key')) {
-        return NextResponse.json(
+        return NextResponse.json<ServiceAgentErrorResponse>(
           { error: 'API configuration error. Please check the server configuration.' },
           { status: 500 }
         );
       }
       
       if (error.message.includes('Rate limit')) {
-        return NextResponse.json(
+        return NextResponse.json<ServiceAgentErrorResponse>(
           { error: 'Service is temporarily unavailable. Please try again later.' },
           { status: 429 }
         );
       }
     }
     
-    return NextResponse.json(
+    return NextResponse.json<ServiceAgentErrorResponse>(
       { error: 'Unable to find answer to your question. Please try again later.' },
       { status: 500 }
     );
